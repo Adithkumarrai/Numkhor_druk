@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumkhorDruk - Bhutan's Premier Automotive Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background-color: #1a237e;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .login-btn, .signup-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-btn {
+            color: white;
+        }
+
+        .signup-btn {
+            background-color: #ffd700;
+            color: #1a237e;
+        }
+
+        .hero {
+            background-color: #e0e0e0;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .car-images {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .car-image {
+            width: 300px;
+            height: auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            color: #1a237e;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .about {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about h2 {
+            color: #1a237e;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .mission {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .features {
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: #4CAF50;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .impact {
+            margin-top: 2rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .car-images {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .car-image {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="logo">NumkhorDruk</a>
+        <div class="auth-buttons">
+            <a href="/login" class="login-btn">Login</a>
+            <a href="/signup" class="signup-btn">Sign Up</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="car-images">
+            <img src="images/car1.png" alt="SUV" class="car-image">
+            <img src="images/car2.png" alt="Crossover" class="car-image">
+            <img src="images/car3.png" alt="Sedan" class="car-image">
+        </div>
+        <h1 class="hero-title">Welcome to NumkhorDruk</h1>
+        <p class="hero-subtitle">Bhutan's Premier Automotive Marketplace</p>
+    </section>
+
+    <section class="about">
+        <h2>About Our Project</h2>
+        
+        <div class="mission">
+            <h3>Our Mission</h3>
+            <p>NumkhorDruk aims to revolutionize the automotive market in Bhutan by providing a secure, transparent, and efficient platform for buying and selling vehicles. We bridge the gap between sellers and buyers, ensuring a seamless transaction process.</p>
+        </div>
+
+        <div class="features">
+            <h3>Key Features</h3>
+            <div class="feature-item">Verified Sellers and Listings</div>
+            <div class="feature-item">Secure Payment System</div>
+            <div class="feature-item">Detailed Vehicle Information</div>
+            <div class="feature-item">User Reviews and Ratings</div>
+        </div>
+
+        <div class="impact">
+            <h3>Our Impact</h3>
+            <p>By digitizing the automotive marketplace in Bhutan, we're making it easier for people to find their perfect vehicle while promoting transparency and trust in the market. Our platform helps reduce fraud and ensures fair pricing.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 NumkhorDruk. All rights reserved.</p>
+    </footer>
+</body>
+</html>

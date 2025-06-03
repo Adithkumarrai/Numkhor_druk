@@ -1,0 +1,37 @@
+{
+  "name": "numkhor_druk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adithkumarrai/Numkhor_druk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adithkumarrai/Numkhor_druk/issues"
+  },
+  "homepage": "https://github.com/Adithkumarrai/Numkhor_druk#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "nodemailer": "^7.0.3",
+    "pg-promise": "^11.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Car Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #1a237e;
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .modal-header p {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .close-button {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            text-decoration: none;
+        }
+
+        .close-button:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1a237e;
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .preview-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.75rem;
+        }
+
+        .preview-box {
+            width: 120px;
+            height: 80px;
+            background: #1a237e;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+        }
+
+        .btn-update {
+            background: #ffc107;
+            color: #000;
+            flex: 1;
+        }
+
+        .btn-update:hover {
+            background: #ffb300;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Edit Car Details</h2>
+            <p>Update the car information below</p>
+            <a href="/admin/dashboard" class="close-button">&times;</a>
+        </div>
+        
+        <div class="modal-body">
+            <form action="/admin/dashboard" method="GET">
+                <div class="form-group">
+                    <label>Car Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g., Toyota Camry 2023" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Type & Description <span class="required">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g., Automatic + 4 Door + Hybrid" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (Nu.) <span class="required">*</span></label>
+                    <input type="text" class="form-control" placeholder="25,000" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Image URL</label>
+                    <input type="text" class="form-control" placeholder="https://example.com/car-image.jpg">
+                    
+                    <div class="image-preview">
+                        <div class="preview-label">Image Preview:</div>
+                        <div class="preview-box">Toyota Camry</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <a href="/admin/dashboard" class="btn btn-cancel">Cancel</a>
+                    <button type="submit" class="btn btn-update">Update Car Details</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

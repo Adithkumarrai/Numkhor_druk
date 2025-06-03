@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumkhorDruk - Our Story</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        .navbar {
+            background-color: #1a237e;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffd700;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .hero {
+            height: 400px;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('driving.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .mission {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .mission-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1a237e;
+        }
+
+        .mission-text p {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .mission-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1a237e;
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature h3 {
+            color: #1a237e;
+            margin-bottom: 1rem;
+        }
+
+        .feature p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .journey {
+            margin: 6rem 0;
+        }
+
+        .journey h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #1a237e;
+            font-size: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: #4a148c;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: #4a148c;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 1rem;
+            position: relative;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content.left {
+            margin-right: 55%;
+            text-align: right;
+        }
+
+        .timeline-content.right {
+            margin-left: 55%;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #4a148c;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .timeline-text {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .mission {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                text-align: left !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NumkhorDruk</div>
+        <div class="nav-links">
+            <a href="/home">Home</a>
+            <a href="/about" class="active">About us</a>
+            <a href="/contact">Contact</a>
+            <a href="/landing">Logout</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p>Building trust in automotive transactions</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="mission">
+            <div class="mission-text">
+                <h2>Our Mission</h2>
+                <p>NumkhorDruk is dedicated to revolutionizing the automotive marketplace in Bhutan. We strive to create a transparent, efficient, and trustworthy platform where buyers and sellers can connect with confidence. Our goal is to simplify the car buying and selling process while ensuring the highest standards of security and reliability.</p>
+            </div>
+            <img src="mission.jpg" alt="Our Mission" class="mission-image">
+        </div>
+
+        <div class="features">
+            <h2>Our Values</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Trust">
+                    </div>
+                    <h3>Trust</h3>
+                    <p>Building trust through verified listings and secure transactions</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2438/2438078.png" alt="Innovation">
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>Continuously improving our platform for better user experience</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4233/4233839.png" alt="Community">
+                    </div>
+                    <h3>Community</h3>
+                    <p>Creating a supportive community of car enthusiasts</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="journey">
+            <h2>Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-text">Founded with a vision to transform car buying in Bhutan</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <div class="timeline-year">2022</div>
+                        <div class="timeline-text">Launched our first online platform</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-text">Expanded services nationwide</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

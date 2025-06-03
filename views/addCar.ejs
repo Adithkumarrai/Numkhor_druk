@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Car - NumkhorDruk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #1a237e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #ffeaea;
+            border-radius: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #151b60;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NumkhorDruk Admin</div>
+        <div class="nav-links">
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="form-container">
+            <h1 class="form-title">Add New Car</h1>
+            
+            <% if (locals.error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/admin/cars/add" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required value="<%= locals.car ? car.title : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <input type="text" id="brand" name="brand" required value="<%= locals.car ? car.brand : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model" required value="<%= locals.car ? car.model : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" name="year" required value="<%= locals.car ? car.year : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price (Nu.)</label>
+                    <input type="number" id="price" name="price" required value="<%= locals.car ? car.price : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" required value="<%= locals.car ? car.location : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="seller">Seller Name</label>
+                    <input type="text" id="seller" name="seller" required value="<%= locals.car ? car.seller : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Image URL</label>
+                    <input type="url" id="image" name="image" required value="<%= locals.car ? car.image : '' %>">
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Add Car</button>
+                    <a href="/admin/dashboard" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html> 

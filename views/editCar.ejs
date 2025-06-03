@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Car - NumkhorDruk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #1a237e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #6528F7;
+            box-shadow: 0 0 0 2px rgba(101, 40, 247, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .submit-btn, .cancel-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn {
+            background-color: #6528F7;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background-color: #5020d0;
+        }
+
+        .cancel-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .cancel-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #ffeaea;
+            border-radius: 4px;
+        }
+
+        .preview-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NumkhorDruk</div>
+        <div class="nav-links">
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="form-container">
+            <h1 class="form-title">Edit Car</h1>
+            
+            <% if (error) { %>
+                <div class="error-message"><%= error %></div>
+            <% } %>
+
+            <form action="/admin/cars/edit/<%= car.id %>" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" value="<%= car.title %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <input type="text" id="brand" name="brand" value="<%= car.brand %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model" value="<%= car.model %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" name="year" value="<%= car.year %>" required min="1900" max="2024">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price (Nu.)</label>
+                    <input type="number" id="price" name="price" value="<%= car.price %>" required min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="<%= car.location %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="seller">Seller Name</label>
+                    <input type="text" id="seller" name="seller" value="<%= car.seller %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Image URL</label>
+                    <input type="url" id="image" name="image" value="<%= car.image %>" required>
+                    <% if (car.image) { %>
+                        <img src="<%= car.image %>" alt="Car preview" class="preview-image">
+                    <% } %>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Update Car</button>
+                    <a href="/admin/dashboard" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html> 

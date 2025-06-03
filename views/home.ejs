@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numkhor Druk - Car Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        .navbar {
+            background-color: #1a237e;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffd700;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .hero {
+            background-color: #1a237e;
+            color: white;
+            padding: 4rem 5%;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-cars {
+            padding: 4rem 5%;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 1rem;
+        }
+
+        .car-info h3 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .car-info p {
+            color: #666;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            color: #1a237e !important;
+            font-weight: bold;
+            margin: 0.25rem 0;
+        }
+
+        .location {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .location i {
+            margin-right: 0.25rem;
+            color: #1a237e;
+        }
+
+        .view-details {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .view-details:hover {
+            background-color: #151b60;
+        }
+
+        .no-cars-message {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            grid-column: 1 / -1;
+        }
+
+        .no-cars-message p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            background: white;
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+            color: #1a237e;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            padding: 3rem 5%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .car-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 1rem;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .car-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NumkhorDruk</div>
+        <div class="nav-links">
+            <a href="/" class="active">Home</a>
+            <a href="/about">About us</a>
+            <a href="/contact">Contact</a>
+             <a href="/landing">Logout</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Welcome to<br>Numkhor Druk</h1>
+            <p>Browse through thousands of verified cars for sale in Bhutan</p>
+        </div>
+    </header>
+
+    <section class="featured-cars">
+        <h2>Featured Cars</h2>
+        <div class="car-grid">
+            <% if (cars && cars.length > 0) { %>
+                <% cars.forEach(car => { %>
+                    <div class="car-card">
+                        <img src="<%= car.image %>" alt="<%= car.title %>">
+                        <div class="car-info">
+                            <h3><%= car.title %></h3>
+                            <p><%= car.brand %> <%= car.model %> • <%= car.year %></p>
+                            <p class="price">Nu. <%= car.price.toLocaleString() %></p>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> <%= car.location %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-cars-message">
+                    <p>No cars available at the moment.</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>Why Choose Us</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Trusted Platform">
+                </div>
+                <h3>Trusted Platform</h3>
+                <p>Verified sellers and secure transactions for your peace of mind</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2438/2438078.png" alt="Convenience">
+                </div>
+                <h3>Convenience</h3>
+                <p>Easy browsing and filtering to find your perfect car</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4233/4233839.png" alt="Customer Support">
+                </div>
+                <h3>Customer Support</h3>
+                <p>24/7 dedicated support team to assist you</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account | NumkhorDruk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .welcome-section {
+      flex: 1;
+      background-color: #E5EAD7;
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .welcome-text h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .welcome-text p {
+      color: #666;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .signup-section {
+      flex: 1;
+      background-color: #fff;
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .signup-container {
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .signup-container h2 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .password-input {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+    }
+
+    .create-account-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #4a148c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #4a148c;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .welcome-section,
+      .signup-section {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-section">
+    <div class="welcome-text">
+      <h1>Welcome to NumkhorDruk</h1>
+      <p>Join Bhutan's premier car marketplace and discover amazing deals on vehicles.</p>
+    </div>
+  </div>
+
+  <div class="signup-section">
+    <div class="signup-container">
+      <h2>Create Account</h2>
+      
+      <% if (message) { %>
+        <div class="alert"><%= message %></div>
+      <% } %>
+
+      <form id="signupForm" action="/signup" method="POST" novalidate>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            value="<%= locals.oldInput ? oldInput.name : '' %>"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            value="<%= locals.oldInput ? oldInput.email : '' %>"
+            placeholder="Enter your email address" 
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Create a password" 
+              required 
+            />
+            <i class="password-toggle far fa-eye"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="password-input">
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              name="confirmPassword" 
+              placeholder="Confirm your password" 
+              required 
+            />
+            <i class="password-toggle far fa-eye"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="create-account-btn">Create Account</button>
+
+        <div class="login-link">
+          Already have an account? <a href="/login">Sign in</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+      toggle.addEventListener('click', function () {
+        const input = this.previousElementSibling;
+        if (input.type === 'password') {
+          input.type = 'text';
+          this.classList.remove('fa-eye');
+          this.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          this.classList.remove('fa-eye-slash');
+          this.classList.add('fa-eye');
+        }
+      });
+    });
+
+    // Optional: Replace this with real form handling logic
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+      // Allow backend to handle post if validations pass
+      // Optional: Add client-side validation here
+    });
+  </script>
+</body>
+</html>

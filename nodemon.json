@@ -1,0 +1,6 @@
+{
+"watch": ["app.js", "routes/"],
+"ext": "js,ejs",
+"ignore": ["public/"],
+"exec": "node app.js"
+}
