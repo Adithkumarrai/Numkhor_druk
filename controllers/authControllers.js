@@ -70,14 +70,25 @@ exports.postLogin = async (req, res) => {
     res.render('login', { message: 'Error during login.' });
   }
 };
-// GET: Render login form
+
+// GET: Login form
 exports.getLogin = (req, res) => {
-  res.render('login', { message: null });
+  const message = req.query.reset === 'success' 
+    ? 'Password has been reset successfully. Please login with your new password.'
+    : null;
+  res.render('login', { message });
 };
 
 // GET: Render signup form
 exports.getSignup = (req, res) => {
   res.render('signup', { message: null });
+};
+
+// Helper function to get base URL
+const getBaseUrl = (req) => {
+  const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+  console.log('Base URL:', baseUrl);
+  return baseUrl;
 };
 
 // POST: Handle signup
@@ -111,36 +122,45 @@ exports.postSignup = async (req, res) => {
 
     // Hash password and create verification token
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1h' });
 
     // Create new user
     await db.none(
-      'INSERT INTO users (name, email, password, role, verification_token) VALUES ($1, $2, $3, $4, $5)',
-      [name, email, hashedPassword, 'user', verificationToken]
+      'INSERT INTO users (name, email, password, is_admin, verification_token) VALUES ($1, $2, $3, $4, $5)',
+      [name, email, hashedPassword, false, verificationToken]
     );
 
     // Generate verification link
-    const verificationLink = `${process.env.BASE_URL || `http://localhost:${process.env.PORT}`}/verify-email?token=${verificationToken}`;
+    const baseUrl = getBaseUrl(req);
+    const verificationLink = `${baseUrl}/verify-email?token=${verificationToken}`;
+    console.log('Generated verification link:', verificationLink);
 
     // Send verification email
     await transporter.sendMail({
-      from: `"Sherubtse Auth" <${process.env.EMAIL_USER}>`,
+      from: `"NumkhorDruk" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Verify your email',
       html: `
-        <h3>Hello ${name},</h3>
-        <p>Thank you for signing up! Please verify your email by clicking the link below:</p>
-        <a href="${verificationLink}" style="
-          display: inline-block;
-          padding: 10px 20px;
-          background-color: #4a148c;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-          margin: 20px 0;
-        ">Verify Email</a>
-        <p>If you didn't create an account, please ignore this email.</p>
-      `,
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1a237e;">Verify Your Email</h2>
+          <p>Hello ${name},</p>
+          <p>Thank you for signing up! Please verify your email by clicking the button below:</p>
+          <a href="${verificationLink}" style="
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+          ">Verify Email</a>
+          <p>If you can't click the button, copy and paste this link in your browser:</p>
+          <p style="word-break: break-all; color: #1a237e;">${verificationLink}</p>
+          <p>If you didn't create an account, you can safely ignore this email.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+          <p style="color: #666; font-size: 12px;">This is an automated email, please do not reply.</p>
+        </div>
+      `
     });
 
     // Redirect to login with success message
@@ -173,7 +193,13 @@ exports.verifyEmail = async (req, res) => {
 
 // GET: Forgot password form
 exports.getForgotPassword = (req, res) => {
-  res.render('forgot-password', { message: null });
+  const data = {
+    error: null,
+    success: null,
+    message: null,
+    title: 'Forgot Password - NumkhorDruk'
+  };
+  res.render('forgot-password', data);
 };
 
 // POST: Forgot password logic
@@ -182,24 +208,60 @@ exports.forgotPassword = async (req, res) => {
 
   try {
     const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
-    if (!user) return res.render('forgot-password', { message: 'Email not found' });
 
-    const resetToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    if (!user) {
+      return res.render('forgot-password', {
+        error: 'Email not found',
+        success: null
+      });
+    }
+
+    const resetToken = jwt.sign({ email }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1h' });
     await db.none('UPDATE users SET reset_token = $1 WHERE email = $2', [resetToken, email]);
 
-    const resetLink = `${process.env.BASE_URL}/reset-password?token=${resetToken}`;
+    // Generate reset link
+    const baseUrl = getBaseUrl(req);
+    const resetLink = `${baseUrl}/reset-password?token=${resetToken}`;
+    console.log('Generated reset link:', resetLink);
 
     await transporter.sendMail({
-      from: `"Sherubtse Auth" <${process.env.EMAIL_USER}>`,
+      from: `"NumkhorDruk" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Password Reset Request',
-      html: `<p>Click the link below to reset your password:</p><a href="${resetLink}">${resetLink}</a>`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1a237e;">Reset Your Password</h2>
+          <p>Hello,</p>
+          <p>We received a request to reset your password. Click the button below to create a new password:</p>
+          <a href="${resetLink}" style="
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+          ">Reset Password</a>
+          <p>If you can't click the button, copy and paste this link in your browser:</p>
+          <p style="word-break: break-all; color: #1a237e;">${resetLink}</p>
+          <p>This link will expire in 1 hour for security reasons.</p>
+          <p>If you didn't request this password reset, you can safely ignore this email.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+          <p style="color: #666; font-size: 12px;">This is an automated email, please do not reply.</p>
+        </div>
+      `
     });
 
-    res.render('forgot-password', { message: 'Password reset link has been sent to your email.' });
-  } catch (error) {
-    console.error(error);
-    res.render('forgot-password', { message: 'Something went wrong. Please try again.' });
+    return res.render('forgot-password', {
+      success: 'Password reset link has been sent to your email.',
+      error: null
+    });
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    return res.render('forgot-password', {
+      error: 'Something went wrong. Please try again.',
+      success: null
+    });
   }
 };
 
@@ -211,22 +273,47 @@ exports.getResetPassword = (req, res) => {
 
 // POST: Reset password logic
 exports.resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { token, newPassword, confirmPassword } = req.body;
 
   try {
+    // Validate password match
+    if (newPassword !== confirmPassword) {
+      return res.render('reset-password', { 
+        token,
+        message: 'Passwords do not match'
+      });
+    }
+
+    // Validate password length
+    if (newPassword.length < 6) {
+      return res.render('reset-password', {
+        token,
+        message: 'Password must be at least 6 characters long'
+      });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const email = decoded.email;
 
-    const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
-    if (!user) return res.render('reset-password', { message: 'Invalid or expired token' });
+    const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1 AND reset_token = $2', [email, token]);
+    if (!user) {
+      return res.render('reset-password', { 
+        token,
+        message: 'Invalid or expired reset token'
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
     await db.none('UPDATE users SET password = $1, reset_token = NULL WHERE email = $2', [hashedPassword, email]);
 
-    res.render('reset-password', { message: 'Password has been reset successfully.' });
+    // Redirect to login with success message
+    res.redirect('/auth/login?reset=success');
   } catch (error) {
-    console.error(error);
-    res.render('reset-password', { message: 'Invalid or expired token' });
+    console.error('Reset password error:', error);
+    res.render('reset-password', { 
+      token,
+      message: 'Invalid or expired reset token'
+    });
   }
 };

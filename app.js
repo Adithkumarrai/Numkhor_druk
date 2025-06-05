@@ -13,6 +13,15 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy - needed for secure cookies and proper IP handling
+app.set('trust proxy', 1);
+
+// Set app-wide locals
+app.use((req, res, next) => {
+  // Set base URL for the application
+  app.locals.baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+  next();
+});
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,6 +35,10 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'secretkey',
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true
+  }
 }));
 
 // View engine
@@ -36,6 +49,23 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('error', { 
+    error: 'Something went wrong!',
+    message: process.env.NODE_ENV === 'development' ? err.message : null
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).render('error', { 
+    error: 'Page not found',
+    message: 'The page you are looking for does not exist.'
+  });
+});
 
 // Initialize database tables
 const initializeTables = async () => {

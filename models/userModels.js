@@ -1,3 +1,4 @@
+// --- models/userModel.js ---
 const db = require('../config/db');
 
 // Create users table if it doesn't exist
@@ -8,7 +9,6 @@ async function createUserTable() {
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
-      role TEXT DEFAULT 'user', -- ✅ Added role
       is_admin BOOLEAN DEFAULT FALSE,
       is_verified BOOLEAN DEFAULT FALSE,
       verification_token TEXT,
@@ -27,13 +27,13 @@ async function createUserTable() {
   }
 }
 
-// Insert new user (with role and verification token)
+// Insert new user (with verification token)
 async function insertUser(user) {
-  const { name, email, password, role = 'user', verification_token } = user;
+  const { name, email, password, verification_token } = user;
   return db.one(
-    `INSERT INTO users (name, email, password, role, verification_token) 
-     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [name, email, password, role, verification_token]
+    `INSERT INTO users (name, email, password, verification_token) 
+     VALUES ($1, $2, $3, $4) RETURNING *`,
+    [name, email, password, verification_token]
   );
 }
 
@@ -118,7 +118,7 @@ async function countNewUsersToday() {
 // Get latest registered users (limit)
 async function getRecentUsers(limit = 5) {
   return db.any(
-    `SELECT id, name, email, role, created_at 
+    `SELECT id, name, email, created_at 
      FROM users 
      ORDER BY created_at DESC 
      LIMIT $1`,
