@@ -5,6 +5,7 @@ const session = require('express-session');
 require('dotenv').config();
 const { createUserTable } = require('./models/userModels');
 const { createCarsTable } = require('./models/carModel');
+const { createMessageTable } = require('./models/messageModel');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -41,6 +42,7 @@ const initializeTables = async () => {
   try {
     await createUserTable();
     await createCarsTable();
+    await createMessageTable();
     console.log('✅ All database tables initialized successfully');
   } catch (error) {
     console.error('❌ Error initializing database tables:', error);
